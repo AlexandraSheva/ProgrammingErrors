@@ -9,27 +9,41 @@ import java.util.Scanner;
 
 public class Task1 {
   public static void main(String[] args) {
-    enterNum();
+    // enterNum();
+    System.out.println(toGetNum());
   }
 
   static float toGetNum() {
     Scanner scanner = new Scanner(System.in);
-    System.out.println("Введите число: ");
-    float num = Float.parseFloat(scanner.nextLine());
+    boolean b = false;
+    float num = 0f;
+    while (b == false) {
+      try {
+        System.out.println("Введите число: ");
+        num = Float.parseFloat(scanner.nextLine());
+        b = true;
+      } catch (InputMismatchException e) {
+        System.out.println("Ошибка ввода. ");
+      } catch (NumberFormatException e) {
+        System.out.println("Ошибка ввода. ");
+      }
+    }
     return num;
   }
 
-  static void enterNum() {
-    try {
-      toGetNum();
-    } catch (InputMismatchException e) {
-      System.out.println("Ошибка ввода. ");
-      toGetNum();
-    } catch (NumberFormatException e) {
-      System.out.println("Ошибка ввода. ");
-      toGetNum();
-    }
-      }
+  // static void enterNum() {
+
+  //   try {
+  //     toGetNum();
+
+  //   } catch (InputMismatchException e) {
+  //     System.out.println("Ошибка ввода. ");
+  //     toGetNum();
+  //   } catch (NumberFormatException e) {
+  //     System.out.println("Ошибка ввода. ");
+  //     toGetNum();
+  //   }
+
+  // }
 
 }
-
