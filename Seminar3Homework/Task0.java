@@ -3,6 +3,9 @@ package Seminar3Homework;
 import java.util.Scanner;
 import java.util.Date;
 import java.text.SimpleDateFormat;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.text.ParseException;
 
 // Напишите приложение, которое будет запрашивать у пользователя следующие данные в произвольном порядке, 
@@ -37,7 +40,7 @@ import java.text.ParseException;
 // исключение должно быть корректно обработано, пользователь должен увидеть стектрейс ошибки.
 
 public class Task0 {
-  public static void main(String[] args) { 
+  public static void main(String[] args) {
     Scanner scanner = new Scanner(System.in);
     System.out.println("Введите данные в формате: Фамилия Имя Отчество ДатаРождения НомерТелефона Пол. ");
     String input = scanner.nextLine();
@@ -45,33 +48,51 @@ public class Task0 {
     String[] info = input.split(" ");
     if (info.length != 6) {
       throw new IllegalArgumentException("Недостаточно данных. ");
-
-      String surname = info[0];
-      String name = info[1];
-      String fathersName = info[2];
-
-      SimpleDateFormat date = new SimpleDateFormat("dd. MM. yyyy");
-      Date birthDate;
-
-      try {
-        birthDate = date.parse(info[3]);
-      } catch (ParseException e) {
-        System.out.println("Неверно введена дата рождения. ");
-      }
-
-      try {
-        int phone = Integer.parseInt(info[4]);
-      } catch (NumberFormatException e) {
-        System.out.println("Ошибка при вводе номера телефона. ");
-      }
-
-      String sex = info[5];
-      if (!sex.toLowerCase().equals("m") && !sex.toLowerCase().equals("f")) {
-        throw new RuntimeException("Неверно введен пол");
-      }
-
-      String nameOfFile = surname.toLowerCase(null) + ".txt";
     }
 
+    String lastName = info[0];
+    String name = info[1];
+    String fathersName = info[2];
+
+    SimpleDateFormat date = new SimpleDateFormat("dd. MM. yyyy");
+    Date birthDate;
+
+    try {
+      birthDate = date.parse(info[3]);
+    } catch (ParseException e) {
+      System.out.println("Неверно введена дата рождения. ");
+    }
+
+    int phone;
+    try {
+      phone = Integer.parseInt(info[4]);
+    } catch (NumberFormatException e) {
+      System.out.println("Ошибка при вводе номера телефона. ");
+    }
+
+    String sex = info[5];
+    if (!sex.toLowerCase().equals("m") && !sex.toLowerCase().equals("f")) {
+      throw new RuntimeException("Неверно введен пол");
+    }
+
+    String nameOfFile = lastName.toLowerCase(null) + ".txt";
+    File file = new File(nameOfFile);
+
+    try (FileWriter fileWriter = new FileWriter(file, true)) {
+      fileWriter.write(lastName);
+      fileWriter.write(name);
+      fileWriter.write(fathersName);
+      // Date birthDate = date.toString();
+      // fileWriter.write( birthDate);
+      // тут не понимаю, как преобразовать дату обратно в строку, поэтому не могу
+      // записать ее в файл
+
+      // fileWriter.write(Integer.toString(phone)); тут такая же проблема, как с датой
+      // - не понимаю, почему не преобразовывается в строку
+      fileWriter.write(sex);
+    } catch (IOException e) {
+      System.out.println("Ошибка в работе с файлом!");
+    }
   }
+
 }
